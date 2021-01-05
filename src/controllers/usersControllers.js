@@ -21,12 +21,47 @@ let usersControllers = {
     res.render('register');
   },
   behindLogin: function (req, res, next) {
-    res.send('Detrás de Login');
+ 
+    let errors = validationResult(req)
+    
+    let usuarioLogueadoConExito;
+
+    if(errors.isEmpty()) {
+      user.forEach(element => {
+        if(element.email == req.body.email) {
+          if(bcrypt.compareSync(req.body.password, element.password)) {
+             usuarioLogueadoConExito = element;
+             res.send(usuarioLogueadoConExito)
+          }
+        }
+       });
+
+       req.session.logueado = usuarioLogueadoConExito;
+      
+       console.log(req.session.logueado)
+
+
+
+       if (usuarioLogueadoConExito == undefined) {
+         res.render('login', {errors: [{msg:'Credenciales Invalidas'}]})
+       }
+
+
+    
+    }
+
+    else {
+      res.render("login", {errors: errors.array()})
+    }
+
   },
+
+
+
   behindRegister: function (req, res, next) {
 
     let errors = validationResult(req)
-    console.log(errors)
+
 
     if(errors.isEmpty()) {
       let usuario = {
@@ -50,7 +85,7 @@ let usersControllers = {
     }
 
     else {
-      res.render("register", {errors: errors.errors})
+      res.render("register", {errors: errors.array()})
     }
 
 

@@ -6,7 +6,14 @@
   </head>
   <body>
 
-    <form action="/users/login" method="POST">
+    <% if (typeof errors != 'undefined') { %>
+              <% errors.forEach(element => { %>
+               <%= element.msg  %> 
+               <br>
+              <% }) %>
+    <% } %>
+
+    <form action="/users/login" method="POST" novalidate>
       <label for="email">Email</label>
       <input type="email" id="email" name="email">
       <br>

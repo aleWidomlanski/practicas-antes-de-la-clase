@@ -25,7 +25,27 @@ var upload = multer({ storage: storage })
 /* GET users listing. */
 router.get('/login', usersControllers.rootLogin);
 router.get('/register', usersControllers.rootRegister);
-router.post('/login', usersControllers.behindLogin);
+router.post('/login', [
+  check('email').isEmail().withMessage("El campo debe ser un email"),
+  check('password').isAlphanumeric().withMessage("El campo debe ser alfanúmerico")
+] ,usersControllers.behindLogin);
+
+
+
+
+router.get('/check', function (req,res) {
+  if(req.session.logueado == undefined) {
+    console.log(req.session.logueado)
+    res.send('No estas logueado')
+  } 
+  else {
+    
+    // res.send('El usuario logueado es ' + req.session.logueado.apellido)
+  }
+})
+
+
+
 router.post('/register', upload.any(), [
   check('name').isLength({min:4}).withMessage('El nombre debe contener 4 letras minimamente'),
   check('lastName').isLength({min:4}).withMessage('El apellido debe contener 4 letras minimamente'),
@@ -35,5 +55,26 @@ router.post('/register', upload.any(), [
 ], usersControllers.behindRegister);
 
 
+router.get('/pruebasession',function(req,res) {
+  if (req.session.visitas == undefined) {
+    req.session.visitas = 0;
+  }
+
+  req.session.visitas++
+
+  res.send('Session ' + req.session.visitas)
+
+})
+
+router.get('/mostrarsession',function(req,res) {
+  
+  res.send('Session ' + req.session.visitas)
+
+})
+
+
+
 
 module.exports = router;
+
+
