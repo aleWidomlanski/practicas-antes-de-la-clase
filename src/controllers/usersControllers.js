@@ -31,20 +31,29 @@ let usersControllers = {
         if(element.email == req.body.email) {
           if(bcrypt.compareSync(req.body.password, element.password)) {
              usuarioLogueadoConExito = element;
-             res.send(usuarioLogueadoConExito)
-          }
+           }
         }
        });
 
-       req.session.logueado = usuarioLogueadoConExito;
-      
-       console.log(req.session.logueado)
 
-
+       req.session.usuarioLogueado = usuarioLogueadoConExito;
+             console.log(req.session.usuarioLogueado)
+             res.send('Succes')
 
        if (usuarioLogueadoConExito == undefined) {
-         res.render('login', {errors: [{msg:'Credenciales Invalidas'}]})
-       }
+        res.render('login', {errors: [{msg:'Credenciales Invalidas'}]})
+      }
+
+ 
+     
+
+      
+    
+
+      //  if (req.body.check != undefined) {
+      // res.cookie('recordameplease', 'quiero que me recuerdes')
+      // }
+
 
 
     

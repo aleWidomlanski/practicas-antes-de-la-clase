@@ -34,13 +34,13 @@ router.post('/login', [
 
 
 router.get('/check', function (req,res) {
-  if(req.session.logueado == undefined) {
-    console.log(req.session.logueado)
+  if(req.session.usuarioLogueado == undefined) {
+    console.log(req.session.usuarioLogueado)
     res.send('No estas logueado')
   } 
   else {
     
-    // res.send('El usuario logueado es ' + req.session.logueado.apellido)
+    res.send('El usuario logueado es ' + req.session.usuarioLogueado.email)
   }
 })
 
