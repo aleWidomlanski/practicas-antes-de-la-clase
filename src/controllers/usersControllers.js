@@ -37,8 +37,9 @@ let usersControllers = {
 
 
        req.session.usuarioLogueado = usuarioLogueadoConExito;
+     
              console.log(req.session.usuarioLogueado)
-             res.send('Succes')
+             
 
        if (usuarioLogueadoConExito == undefined) {
         res.render('login', {errors: [{msg:'Credenciales Invalidas'}]})
@@ -50,11 +51,11 @@ let usersControllers = {
       
     
 
-      //  if (req.body.check != undefined) {
-      // res.cookie('recordameplease', 'quiero que me recuerdes')
-      // }
+       if (req.body.check != undefined) {
+        res.cookie("recordame", usuarioLogueadoConExito.email, {maxAge: 60000})
+       }
 
-
+       res.send('Succes')
 
     
     }
